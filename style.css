@@ -210,7 +210,7 @@ body {
 @media (max-width: 480px) {
   body {
     padding: 15px;
-    align-items: center; /* move container up so no overflow */
+    align-items: flex-start; /* move container up so no overflow */
     height: auto;
   }
 
