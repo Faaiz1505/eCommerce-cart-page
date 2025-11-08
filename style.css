@@ -7,7 +7,7 @@
 }
 
 body {
-  height: 100vh;
+  min-height: 100vh;
   margin: 0;
   display: flex;
   justify-content: center;
@@ -24,8 +24,10 @@ body {
 }
 
 /* Glassmorphism Card */
+/* Glassmorphism Card */
 .container {
-  width: 450px;
+  width: 90%;
+  max-width: 450px;
   padding: 35px 30px;
   border-radius: 18px;
 
@@ -177,5 +179,74 @@ body {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+  .container {
+    padding: 25px 20px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+  .item {
+    padding: 12px;
+  }
+
+  .item button {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .checkout-area button {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 15px;
+    align-items: center; /* move container up so no overflow */
+    height: auto;
+  }
+
+  .container {
+    width: 95%;
+    margin-top: 20px;
+    padding: 20px 10px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+  .section {
+    margin-bottom: 20px;
+  }
+
+  .item {
+    align-items: flex-start;
+    gap: 6px;
+    font-size: 14px;
+  }
+
+  .item button {
+    align-self: flex-end;
+    padding: 5px 8px;
+    font-size: 12px;
+  }
+
+  .checkout-area {
+    flex-direction: column;
+    gap: 5px;
+    align-items: flex-end;
+  }
+
+  .total {
+    font-size: 14px;
   }
 }
