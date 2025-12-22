@@ -4,34 +4,42 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NafasHub Store</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap"
+      rel="stylesheet"
+    />
+
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="container">
-      <h2 class="title">🛒 NafasHub Store</h2>
+    <main>
+      <div class="container">
+        <h2 class="title">🛒 NafasHub Store</h2>
 
-      <div class="section">
-        <h3>Products</h3>
-
-        <div id="product-list">
-          <!-- Products will be added here via JS -->
+        <div class="section">
+          <h3>Products</h3>
+          <div class="products">
+            <div id="product-list">
+              <!-- Products will be added here via JS -->
+            </div>
+          </div>
         </div>
+
+        <div class="added hidden" id="message">Succesfully added to cart ✔</div>
+
       </div>
-
-      <div class="section">
-        <h3>Shopping Cart</h3>
-
-        <div class="cart-list" id="cart-items">
-          <!-- Items will appear via JS -->
-          <p class="empty" id="cart-empty">Your Cart is empty...</p>
-        </div>
-
-        <div class="checkout-area hidden" id="cart-total">
-          <p>Total: <span id="total-price" class="total">$0.00</span></p>
-          <button class="checkout" id="checkout-button">Checkout</button>
-        </div>
+    </main>
+    <footer>
+      <div class="home fas fa-home" id="home"></div>
+      <div class="cart-icon-wrapper">
+        <i class="fas fa-shopping-cart" id="cart-page"></i>
+        <span class="badge" id="cart-badge">0</span>
       </div>
-    </div>
+    </footer>
     <script src="script.js"></script>
   </body>
 </html>

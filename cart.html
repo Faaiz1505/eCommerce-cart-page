@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cart page</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="cart.css" />
+  </head>
+  <body>
+    <main>
+      <div class="container">
+        <h2 class="title">🛒 Shopping Cart</h2>
+
+        <div class="section">
+          <div class="cart-list" id="cart-items">
+            <!-- Items will appear via JS -->
+            <p class="empty" id="cart-empty">🛒 Your Cart is empty...</p>
+          </div>
+        </div>
+      </div>
+      <section class="checkout-sec">
+        <p>CART SUMMARY</p>
+        <div class="line"></div>
+        <div class="checkout-area hidden" id="cart-total">
+          <h1>Subtotal</h1>
+          <span id="total-price" class="total">$0.00</span>
+        </div>
+        <div class="line"></div>
+        <button class="checkout" id="checkout-button">Checkout</button>
+      </section>
+    </main>
+
+    <footer>
+      <div class="home fas fa-home" id="home"></div>
+      <div class="cart-icon-wrapper">
+        <i class="fas fa-shopping-cart" id="cart-page"></i>
+      </div>
+    </footer>
+
+    <script src="cart.js"></script>
+  </body>
+</html>

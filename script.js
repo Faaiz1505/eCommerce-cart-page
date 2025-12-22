@@ -1,86 +1,90 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const products = [
-    { id: 1, name: "Wireless Headphone", price: 59.99 },
-    { id: 2, name: "Smart Watch", price: 129.99 },
-    { id: 3, name: "Bluetooth Speaker", price: 39.99 },
-    { id: 4, name: "E-book Reader", price: 89.99 },
-    { id: 5, name: "Fitness Tracker", price: 49.99 },
-  ];
+  const productsURL = "https://dummyjson.com/products";
+  let products = [];
 
+  const homeIcon = document.getElementById("home");
+  const cartIcon = document.getElementById("cart-page");
   const productList = document.getElementById("product-list");
-  const cartItem = document.getElementById("cart-items");
-  const emptyCartMessage = document.getElementById("cart-empty");
-  const cartTotalMessage = document.getElementById("cart-total");
-  const totalPriceDisplay = document.getElementById("total-price");
-  const checkOutBtn = document.getElementById("checkout-button");
+  const cartBadge = document.getElementById("cart-badge");
+  const message = document.getElementById("message");
 
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  let messageTimeout;
+  cart = cart.map((item) => ({ ...item, quantity: item.quantity || 1 }));
 
-  products.forEach((product) => {
-    const productDiv = document.createElement("div");
-    productDiv.classList.add("item");
-    productDiv.innerHTML = `
-  <span>${product.name} - $${product.price.toFixed(2)}</span>
-  <button data-id="${product.id}">Add to cart</button>
-  `;
-    productList.appendChild(productDiv);
+  updateCartBadge();
+
+  homeIcon.addEventListener("click", () => {
+    window.location.href = "index.html";
   });
+
+  cartIcon.addEventListener("click", () => {
+    window.location.href = "cart.html";
+  });
+
+  fetch(productsURL)
+    .then((res) => res.json())
+    .then((data) => {
+      products = data.products;
+
+      products.forEach((product) => {
+        const productDiv = document.createElement("div");
+        productDiv.classList.add("item");
+
+        productDiv.innerHTML = `
+        <div class="img-cont">
+          <img src="${product.thumbnail}" alt="${product.title}" />
+        </div>
+        <h4>${product.title}</h4>
+        <p>${product.description}</p>
+        <div class="pro-cont">
+          <strong>$${product.price}</strong>
+          <button data-id="${product.id}">Add to cart</button>
+        </div>
+      `;
+        productList.appendChild(productDiv);
+      });
+    })
+    .catch((err) => console.error("Error fetching products:", err));
 
   productList.addEventListener("click", (e) => {
     if (e.target.tagName === "BUTTON") {
       const productId = parseInt(e.target.getAttribute("data-id"));
       const product = products.find((product) => product.id === productId);
-      cart.push(product);
+      const existingItem = cart.find((item) => item.id === productId);
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        cart.push({ ...product, quantity: 1 });
+      }
       saveCart();
-      renderCart();
+      message.textContent = `${product.title} added to cart!`;
+      message.classList.remove("hidden");
+      const rect = e.target.getBoundingClientRect();
+      message.style.top = `${rect.top + window.scrollY - 10}px`;
+      message.style.left = `${rect.left + rect.width / 2}px`;
+
+      if (messageTimeout) {
+        clearTimeout(messageTimeout);
+      }
+      messageTimeout = setTimeout(() => {
+        message.classList.add("hidden");
+      }, 1500);
     }
-  });
-
-  function renderCart() {
-    cartItem.innerHTML = "";
-    let totalPrice = 0;
-
-    if (cart.length) {
-      emptyCartMessage.classList.add("hidden");
-      cartTotalMessage.classList.remove("hidden");
-      cart.forEach((item, index) => {
-        const cartList = document.createElement("div");
-        cartList.classList.add("cartDiv");
-        cartList.innerHTML = `
-      <span>${item.name} - $${item.price.toFixed(2)}</span>
-      <button data-index="${index}">Remove</button>
-      `;
-        totalPrice += item.price;
-        totalPriceDisplay.textContent = `$${totalPrice.toFixed(2)}`;
-        cartItem.appendChild(cartList);
-      });
-    } else {
-      emptyCartMessage.classList.remove("hidden");
-      cartTotalMessage.classList.add("hidden");
-      totalPriceDisplay.textContent = "$0.00";
-    }
-  }
-
-  cartItem.addEventListener("click", (e) => {
-    if (e.target.tagName === "BUTTON") {
-      const itemIndex = parseInt(e.target.getAttribute("data-index"));
-      cart.splice(itemIndex, 1);
-      renderCart();
-      saveCart();
-    }
-  });
-
-  checkOutBtn.addEventListener("click", () => {
-    const finalTotal = totalPriceDisplay.textContent;
-    cart.length = 0;
-    saveCart();
-    renderCart();
-    alert(
-      `✅ Checkout Successful!\n\n🛍️ Total Paid: ${finalTotal}\n\nThank you for shopping with us! 🎉`
-    );
   });
 
   function saveCart() {
     localStorage.setItem("cart", JSON.stringify(cart));
+    updateCartBadge();
+  }
+
+  function updateCartBadge() {
+    const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+    cartBadge.textContent = totalQuantity;
+    if (totalQuantity > 0) {
+      cartBadge.style.display = "inline-block";
+    } else {
+      cartBadge.style.display = "none";
+    }
   }
 });
