@@ -56,7 +56,8 @@ document.addEventListener("DOMContentLoaded", () => {
       totalPriceDisplay.textContent = `$ ${totalPrice.toFixed(2)}`;
       checkOutBtn.textContent = `Checkout ($ ${totalPrice.toFixed(2)})`;
     } else {
-      cartItem.innerHTML = '<p class="empty" id="cart-empty">🛒 Your Cart is empty...</p>';
+      cartItem.innerHTML =
+        '<p class="empty" id="cart-empty">🛒 Your Cart is empty...</p>';
       cartTotalMessage.classList.add("hidden");
       totalPriceDisplay.textContent = "$0.00";
       checkOutBtn.textContent = "Checkout";
@@ -89,15 +90,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   checkOutBtn.addEventListener("click", () => {
     const finalTotal = totalPriceDisplay.textContent;
-    cart.length = 0;
-    saveCart();
-    renderCart();
-    if (cart.length === 0) {
-      alert("Your cart is empty.\n\nPlease add items before checking out.");
-    } else {
+    if (cart.length > 0) {
       alert(
         `✅ Checkout Successful!\n\n🛍️ Total Paid: ${finalTotal}\n\nThank you for shopping with us! 🎉`
       );
+    } else {
+      alert("Your cart is empty.\n\nPlease add items before checking out.");
     }
+    cart.length = 0;
+    saveCart();
+    renderCart();
+    
   });
 });

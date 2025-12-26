@@ -83,7 +83,7 @@ Here’s a preview of the application interface::
 ---
 
 ## 📂 Folder Structure  
-     ```bash
+    ```bash
     /eCommerce-cart-page
     │── index.html
     │── products.html
